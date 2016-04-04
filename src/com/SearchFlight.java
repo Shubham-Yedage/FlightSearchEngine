@@ -89,14 +89,12 @@ public class SearchFlight {
 
 	private List<String> sortByPreference(Map<String, String> flList, int choice) {
 	
-		
 		Set<String> keyset=flList.keySet();
 		List<Double> DuraList=new ArrayList<Double>();
 		List<Long> fareList=new ArrayList<Long>();
 		
 		for(Object cnt:keyset)
 		{
-			
 			if(choice==5)
 			{
 				Double val=Double.parseDouble(toString(cnt));
