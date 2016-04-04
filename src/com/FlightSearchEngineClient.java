@@ -8,7 +8,6 @@ public class FlightSearchEngineClient {
 	private static SearchFlight sf;
 
 	public static void main(String[] args) {
-
 		String[] paths = new String[] {
 				"/home/synerzip/workspace/FlightSearchEngine/csv_Files/AIR_FRANCE.csv",
 				"/home/synerzip/workspace/FlightSearchEngine/csv_Files/BRITISH_AIRWAYS.csv",
@@ -16,7 +15,6 @@ public class FlightSearchEngineClient {
 				"/home/synerzip/workspace/FlightSearchEngine/AirIndia.csv"};
 		sf = new SearchFlight(paths);
 		scanDetails();
-
 	}
 
 	public static void scanDetails() {
