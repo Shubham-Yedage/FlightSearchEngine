@@ -13,7 +13,7 @@ import java.util.Set;
 
 public class SearchFlight {
 	protected ArrayList<String> listPath = new ArrayList<String>();
-
+	protected List<String> finalList=new ArrayList<String>();
 	public SearchFlight(String[] path) {
 
 		for (String p : path) {
@@ -24,19 +24,25 @@ public class SearchFlight {
 
 	public String toString(String string, String string2, String string3,
 			String string4, String string5, String string6, String string7) {
-		// TODO Auto-generated method stub
 		return "|" + string + "|" + string2 + "|" + string3 + "|" + string4
 				+ "|" + string5 + "|" + string6 + "|" + string7 + "|";
 	}
 
-	public void getFlights(String depLoc, String arrLoc, String flightDate,
+	public List<String> getFlights(String depLoc, String arrLoc, String flightDate,
 			int choice) {
-		// TODO Auto-generated method stub
+
 		String newLine = "";
 		BufferedReader br = null;
 		String splitBy = ",";
 		int flag=0;
+		int selCol=5;
+		
+		if (choice == 1)
+			selCol = 6;
+		else
+			selCol = 5;
 
+		
 		Map<String, String> flList = new HashMap<String, String>();
 		try {
 			for (String obj : listPath) {
@@ -51,44 +57,43 @@ public class SearchFlight {
 							&& (comp1[3].equalsIgnoreCase(flightDate))) {
 						String line1 = toString(comp1[0], comp1[1], comp1[2],
 								comp1[3], comp1[4], comp1[5], comp1[6]);
-						flList.put(comp1[choice], line1);
+						flList.put(comp1[selCol], line1);
 						flag=1;
 						
 					}
 				}
 			}
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		}
 
 		if (flag == 1) {
-			sortByPreference(flList, choice);
-			
+			finalList=sortByPreference(flList, selCol);
+			try {
+				br.close();
+			} catch (IOException e) {
+				
+				e.printStackTrace();
+			}
+			return finalList;
 
 		} else {
-			System.out
-			.println("Sorry, We dont have flight for your search!\nTry again!");
+			finalList.add("Sorry, We dont have flight for your search!\nTry again!");
+			return finalList;
 		}
-		try {
-			br.close();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return;
 	}
 
-	private void sortByPreference(Map<String, String> flList, int choice) {
-		// TODO Auto-generated method stub
+	private List<String> sortByPreference(Map<String, String> flList, int choice) {
+	
 		
 		Set<String> keyset=flList.keySet();
 		List<Double> DuraList=new ArrayList<Double>();
 		List<Long> fareList=new ArrayList<Long>();
-
+		
 		for(Object cnt:keyset)
 		{
 			
@@ -110,7 +115,8 @@ public class SearchFlight {
 			Collections.sort(DuraList);
 			for(Object cnt:DuraList)
 			{
-				System.out.println(""+flList.get(cnt.toString()));
+				finalList.add(flList.get(cnt.toString()));
+				
 			}
 		}
 		else
@@ -118,13 +124,15 @@ public class SearchFlight {
 			Collections.sort(fareList);
 			for(Object cnt:fareList)
 			{
-				System.out.println(""+flList.get(cnt.toString()));
+				finalList.add(flList.get(cnt.toString()));
+				
 			}
 		}
+		return finalList;
 	}
 
 	private String toString(Object cnt) {
-		// TODO Auto-generated method stub
+		
 		return ""+cnt;
 	}
 }
