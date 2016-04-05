@@ -1,5 +1,7 @@
 package com;
 
+import java.io.File;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -13,16 +15,12 @@ public class FlightSearchEngineClient {
 
     public static void main(String[] args) {
 
-
-        System.out.println("Enter number of .csv fils:");
-        int totalFiles = sc.nextInt();
-        System.out.println("Enter path for .csv file:");
-
+        URL resource = FlightSearchEngineClient.class.getClassLoader().getResource("resources");
+        File dir = new File(resource.getPath());
         List<String> path = new ArrayList<>();
-        for (int cnt = 0; cnt < totalFiles; cnt++) {
-            path.add(sc.next());
+        for (File f : dir.listFiles()) {
+            path.add(f.getAbsolutePath());
         }
-
         sf = new SearchFlight(path, new HashMap<Integer, Comparator<Flight>>());
         scanDetails();
     }
